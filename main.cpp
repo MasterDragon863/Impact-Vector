@@ -1,17 +1,10 @@
 #include "raylib.h"
+#include "Game.h"
 
 int main(void)
 {
-    InitWindow(640, 360, "Impact Vector");
-
-    while (!WindowShouldClose())
-    {
-        BeginDrawing();
-            ClearBackground(BLACK);
-        EndDrawing();
-    }
-
-    CloseWindow();
+    Game game;
+    game.run();
 
     return 0;
 }
