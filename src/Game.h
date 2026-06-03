@@ -1,4 +1,6 @@
 #pragma once
+#include "Registry.h"
+
 class Game
 {
 public:
@@ -9,4 +11,7 @@ private:
     void update();
     void render();
     bool isRunning;
+
+    Registry registry;
+
 };
