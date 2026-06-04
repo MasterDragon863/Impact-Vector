@@ -1,5 +1,15 @@
 #include "Registry.h"
 
+
+Registry::Registry()
+{
+    component_storage[POSITION_TYPE] = positions;
+    component_storage[VELOCITY_TYPE] = velocities;
+    component_storage[INPUT_TYPE] = inputs;
+}
+
+
+
 Entity Registry::createEntity()
 {
     if (nextEntity >= MAX_ENTITIES)
@@ -9,4 +19,13 @@ Entity Registry::createEntity()
     Entity id = nextEntity;
     nextEntity++;
     return id;
+}
+
+bool Registry::EntityHasComponent(Entity entity, ComponentBit component) const
+{
+    if (entity == INVALID_ENTITY || entity >= nextEntity)
+    {
+        return false;
+    }
+    return (component_masks[entity] & component) != 0;
 }
