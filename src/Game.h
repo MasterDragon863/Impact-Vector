@@ -5,6 +5,7 @@
 #include "Registry.h"
 #include "Systems/Render.cpp"
 #include "Systems/Input.cpp"
+#include "Systems/Movement.cpp"
 class Game
 {
 public:

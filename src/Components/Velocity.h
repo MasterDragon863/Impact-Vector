@@ -4,4 +4,5 @@ struct Velocity
 {
     float dx;
     float dy;
+    float speed;
 };

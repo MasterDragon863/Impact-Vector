@@ -9,6 +9,7 @@ inline void Render(Registry& registry)
     BeginDrawing();
     ClearBackground(BLACK);
     RenderSystem(registry);
+    DrawFPS(10, 10);
     EndDrawing();
 }
 
