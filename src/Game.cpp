@@ -3,33 +3,34 @@
 
 Game::Game()
 {
-    isRunning = true;
+    _isRunning = true;
+
 }
 
 void Game::run()
 {
     InitWindow(640, 360, "Impact Vector");
+    _initializeEntities();
 
-    while (isRunning)
+    while (_isRunning)
     {
-        update();
-        render();
+        _update();
+        Render(_registry);
     }
 
     CloseWindow();
 }
 
-void Game::update()
+void Game::_update()
 {
     if (WindowShouldClose())
     {
-        isRunning = false;
+        _isRunning = false;
     }
 }
 
-void Game::render()
+void Game::_initializeEntities()
 {
-    BeginDrawing();
-        ClearBackground(BLACK);
-    EndDrawing();
+    _registry.addComponent<Position>(_playerEntity, ComponentBit::POSITION, {100.0f, 100.0f});
+    _registry.addComponent<Sprite>(_playerEntity, ComponentBit::SPRITE, Sprite(32.0f, 32.0f, ORANGE));
 }

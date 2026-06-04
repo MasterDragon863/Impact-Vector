@@ -10,6 +10,7 @@ add_executable(ImpactVector main.cpp)
 target_sources(ImpactVector PRIVATE
     src/Game.cpp
     src/Registry.cpp
+    src/Systems/Render.cpp
 )
 
 target_include_directories(ImpactVector PRIVATE 

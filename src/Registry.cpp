@@ -6,6 +6,7 @@ Registry::Registry()
     component_storage[POSITION_TYPE] = positions;
     component_storage[VELOCITY_TYPE] = velocities;
     component_storage[INPUT_TYPE] = inputs;
+    component_storage[SPRITE_TYPE] = sprites;
 }
 
 
@@ -21,7 +22,7 @@ Entity Registry::createEntity()
     return id;
 }
 
-bool Registry::EntityHasComponent(Entity entity, ComponentBit component) const
+bool Registry::EntityHasComponent(Entity entity, std::uint32_t component) const
 {
     if (entity == INVALID_ENTITY || entity >= nextEntity)
     {

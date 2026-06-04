@@ -1,5 +1,6 @@
 #pragma once
 #include "Registry.h"
+#include "Systems/Render.cpp"
 
 class Game
 {
@@ -8,10 +9,13 @@ public:
     void run();
 
 private:
-    void update();
-    void render();
-    bool isRunning;
+    void _update();
+    bool _isRunning;
 
-    Registry registry;
+    void _initializeEntities();
+
+    Registry _registry;
+    
+    Entity _playerEntity{_registry.createEntity()};
 
 };
