@@ -1,5 +1,4 @@
 #include "Game.h"
-#include "raylib.h"
 
 Game::Game()
 {
@@ -15,6 +14,7 @@ void Game::run()
     while (_isRunning)
     {
         _update();
+        InputSystem(_registry);
         Render(_registry);
     }
 
@@ -33,4 +33,6 @@ void Game::_initializeEntities()
 {
     _registry.addComponent<Position>(_playerEntity, ComponentBit::POSITION, {100.0f, 100.0f});
     _registry.addComponent<Sprite>(_playerEntity, ComponentBit::SPRITE, Sprite(32.0f, 32.0f, ORANGE));
+    _registry.addComponent<Input>(_playerEntity, ComponentBit::INPUT, Input());
+    _registry.addComponent<Velocity>(_playerEntity, ComponentBit::VELOCITY, {0.0f, 0.0f});
 }

@@ -1,7 +1,10 @@
 #pragma once
+
+#include "raylib.h"
+
 #include "Registry.h"
 #include "Systems/Render.cpp"
-
+#include "Systems/Input.cpp"
 class Game
 {
 public:

@@ -11,6 +11,7 @@ target_sources(ImpactVector PRIVATE
     src/Game.cpp
     src/Registry.cpp
     src/Systems/Render.cpp
+    src/Systems/Input.cpp
 )
 
 target_include_directories(ImpactVector PRIVATE 

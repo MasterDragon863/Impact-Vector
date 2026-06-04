@@ -43,7 +43,7 @@ public:
     inline void addComponent(Entity entity, ComponentBit bit, T component);
 
     template <typename T> 
-    T *getComponentArray() const;
+    T *getComponentArray();
 
 private:
     Position positions[MAX_ENTITIES]{};
@@ -57,25 +57,25 @@ private:
 };
 
 template <>
-inline Position *Registry::getComponentArray<Position>() const
+inline Position *Registry::getComponentArray<Position>()
 {
     return static_cast<Position *>(component_storage[POSITION_TYPE]);
 }
 
 template <>
-inline Velocity *Registry::getComponentArray<Velocity>() const
+inline Velocity *Registry::getComponentArray<Velocity>()
 {
     return static_cast<Velocity *>(component_storage[VELOCITY_TYPE]);
 }
 
 template <>
-inline Input *Registry::getComponentArray<Input>() const
+inline Input *Registry::getComponentArray<Input>()
 {
     return static_cast<Input *>(component_storage[INPUT_TYPE]);
 }
 
 template <>
-inline Sprite *Registry::getComponentArray<Sprite>() const
+inline Sprite *Registry::getComponentArray<Sprite>()
 {
     return static_cast<Sprite *>(component_storage[SPRITE_TYPE]);
 }
