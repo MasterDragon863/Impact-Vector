@@ -8,6 +8,7 @@ Registry::Registry()
     component_storage[INPUT_TYPE] = inputs;
     component_storage[SPRITE_TYPE] = sprites;
     component_storage[PHYSICS_TYPE] = physics;
+    component_storage[COLLIDER_TYPE] = colliders;
 }
 
 

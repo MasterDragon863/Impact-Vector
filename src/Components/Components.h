@@ -3,3 +3,4 @@
 #include "Input.h"
 #include "Sprite.h"
 #include "Physics.h"
+#include "Collider.h"

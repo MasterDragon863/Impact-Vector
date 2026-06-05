@@ -3,13 +3,13 @@
 
 struct Collider
 {
-    Vector2 origin;
-    float _minX;
-    float _minY;
-    float _maxX;
-    float _maxY;
-    float halfWidth;
-    float halfHeight;
+    Vector2 origin{0};
+    float _minX{0};
+    float _minY{0};
+    float _maxX{0};
+    float _maxY{0};
+    float halfWidth{0};
+    float halfHeight{0};
 
     inline Vector2 getMin() const
     {
@@ -32,4 +32,5 @@ struct Collider
     {
 
     }
+    Collider() = default;
 };

@@ -16,6 +16,7 @@ enum ComponentBit
     INPUT = 1 << 2,
     SPRITE = 1 << 3,
     PHYSICS = 1 << 4,
+    COLLIDER = 1 << 5, 
 };
 
 enum ComponentType
@@ -25,12 +26,13 @@ enum ComponentType
     INPUT_TYPE,
     SPRITE_TYPE,
     PHYSICS_TYPE,
+    COLLIDER_TYPE, 
 };
 
 class Registry
 {
 public:
-    void *component_storage[5]{};
+    void *component_storage[6]{};
 
     Registry();
     Entity createEntity();
@@ -53,6 +55,8 @@ private:
     Input inputs[MAX_ENTITIES]{};
     Sprite sprites[MAX_ENTITIES]{};
     Physics physics[MAX_ENTITIES]{};
+    Collider colliders[MAX_ENTITIES]{};
+
 
     std::uint32_t component_masks[MAX_ENTITIES]{0};
 
