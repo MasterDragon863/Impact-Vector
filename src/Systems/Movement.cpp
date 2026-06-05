@@ -12,8 +12,8 @@ inline void MovementSystem(Registry &registry)
             Position &position = registry.getComponentArray<Position>()[entity];
             Velocity &velocity = registry.getComponentArray<Velocity>()[entity];
 
-            position.x += velocity.dx * velocity.speed * GetFrameTime();
-            position.y += velocity.dy * velocity.speed * GetFrameTime();
+            position.x += velocity.dx * GetFrameTime();
+            position.y += velocity.dy * GetFrameTime();
         }
     }
 }

@@ -36,4 +36,5 @@ void Game::_initializeEntities()
     _registry.addComponent<Sprite>(_playerEntity, ComponentBit::SPRITE, Sprite(32.0f, 32.0f, ORANGE));
     _registry.addComponent<Input>(_playerEntity, ComponentBit::INPUT, Input());
     _registry.addComponent<Velocity>(_playerEntity, ComponentBit::VELOCITY, {0.0f, 0.0f, 250.0f});
+    _registry.addComponent<Physics>(_playerEntity, ComponentBit::PHYSICS, Physics(9.8f, 0.0f, 1.0f, 0.0f));
 }

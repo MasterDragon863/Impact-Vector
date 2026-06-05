@@ -15,6 +15,7 @@ enum ComponentBit
     VELOCITY = 1 << 1,
     INPUT = 1 << 2,
     SPRITE = 1 << 3,
+    PHYSICS = 1 << 4,
 };
 
 enum ComponentType
@@ -23,12 +24,13 @@ enum ComponentType
     VELOCITY_TYPE,
     INPUT_TYPE,
     SPRITE_TYPE,
+    PHYSICS_TYPE,
 };
 
 class Registry
 {
 public:
-    void *component_storage[4]{};
+    void *component_storage[5]{};
 
     Registry();
     Entity createEntity();
@@ -50,6 +52,7 @@ private:
     Velocity velocities[MAX_ENTITIES]{};
     Input inputs[MAX_ENTITIES]{};
     Sprite sprites[MAX_ENTITIES]{};
+    Physics physics[MAX_ENTITIES]{};
 
     std::uint32_t component_masks[MAX_ENTITIES]{0};
 
@@ -78,6 +81,11 @@ template <>
 inline Sprite *Registry::getComponentArray<Sprite>()
 {
     return static_cast<Sprite *>(component_storage[SPRITE_TYPE]);
+}
+template <>
+inline Physics *Registry::getComponentArray<Physics>()
+{
+    return static_cast<Physics *>(component_storage[PHYSICS_TYPE]);
 }
 
 

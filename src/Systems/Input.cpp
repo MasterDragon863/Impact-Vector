@@ -17,7 +17,7 @@ inline void InputSystem(Registry &registry)
                 IsKeyDown(KEY_X),
                 IsKeyDown(KEY_C));
 
-            velocity.dx = (input.right - input.left);
+            velocity.dx = (input.right - input.left) * velocity.speed;
         }
 
     }
