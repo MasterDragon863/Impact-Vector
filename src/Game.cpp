@@ -1,8 +1,8 @@
 #include "Game.h"
 
-Game::Game()
+Game::Game():
+    _isRunning(true)
 {
-    _isRunning = true;
     SetTargetFPS(60);
 }
 
@@ -34,7 +34,7 @@ void Game::_update()
 void Game::_initializeEntities()
 {
     _registry.addComponent<Position>(_playerEntity, ComponentBit::POSITION, {100.0f, 100.0f});
-    _registry.addComponent<Sprite>(_playerEntity, ComponentBit::SPRITE, Sprite(32.0f, 32.0f, ORANGE));
+    _registry.addComponent<Sprite>(_playerEntity, ComponentBit::SPRITE, Sprite(32.0f, 32.0f, ORANGE, Vector2(16.0f, 16.0f), 0.0f));
     _registry.addComponent<Input>(_playerEntity, ComponentBit::INPUT, Input());
     _registry.addComponent<Velocity>(_playerEntity, ComponentBit::VELOCITY, {0.0f, 0.0f, 250.0f});
     _registry.addComponent<Physics>(_playerEntity, ComponentBit::PHYSICS, Physics(980.0f, 0.1f, 1.0f, 0.0f));

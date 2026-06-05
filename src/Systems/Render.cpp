@@ -15,19 +15,24 @@ inline void Render(Registry& registry)
 
 inline void RenderSystem(Registry& registry)
 {
+    Position *positions {registry.getComponentArray<Position>()};
+    Sprite *sprites {registry.getComponentArray<Sprite>()};
+
     for (Entity entity{0}; entity < registry.getEntityCount() && entity < registry.getMaxEntities(); ++entity)
     {
         
         std::uint32_t bitMask {ComponentBit::POSITION | ComponentBit::SPRITE};
         if (registry.EntityHasComponent(entity, bitMask)) {
-            Position position {registry.getComponentArray<Position>()[entity]};
-            Sprite sprite {registry.getComponentArray<Sprite>()[entity]};
-            
+            Sprite &sprite {sprites[entity]};
+            Position &position {positions[entity]};
+
             if (sprite.useAtlas) {
                 DrawTextureRec(*sprite.atlas, sprite.sourceRect, {position.x, position.y}, WHITE);
             }
             else {
-                DrawRectangle(position.x, position.y, sprite.sourceRect.width, sprite.sourceRect.height, sprite.debugColor);
+                Rectangle rect{Rectangle(position.x, position.y, sprite.sourceRect.width, sprite.sourceRect.height)};
+                DrawRectanglePro(rect, sprite.origin, sprite.rotation, sprite.debugColor);
+                
             }
         }
     }
