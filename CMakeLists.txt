@@ -13,6 +13,7 @@ target_sources(ImpactVector PRIVATE
     src/Systems/Render.cpp
     src/Systems/Input.cpp
     src/Systems/Movement.cpp
+    src/Systems/Physics.cpp
 )
 
 target_include_directories(ImpactVector PRIVATE 

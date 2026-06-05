@@ -15,13 +15,14 @@ inline void Render(Registry& registry)
 
 inline void RenderSystem(Registry& registry)
 {
-    for (Entity entity = 0; entity < registry.getEntityCount() && entity < registry.getMaxEntities(); ++entity)
+    for (Entity entity{0}; entity < registry.getEntityCount() && entity < registry.getMaxEntities(); ++entity)
     {
         
-        std::uint32_t bitMask = ComponentBit::POSITION | ComponentBit::SPRITE;
+        std::uint32_t bitMask {ComponentBit::POSITION | ComponentBit::SPRITE};
         if (registry.EntityHasComponent(entity, bitMask)) {
-            Position position = registry.getComponentArray<Position>()[entity];
-            Sprite sprite = registry.getComponentArray<Sprite>()[entity];
+            Position position {registry.getComponentArray<Position>()[entity]};
+            Sprite sprite {registry.getComponentArray<Sprite>()[entity]};
+            
             if (sprite.useAtlas) {
                 DrawTextureRec(*sprite.atlas, sprite.sourceRect, {position.x, position.y}, WHITE);
             }

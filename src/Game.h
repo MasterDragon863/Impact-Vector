@@ -6,6 +6,7 @@
 #include "Systems/Render.cpp"
 #include "Systems/Input.cpp"
 #include "Systems/Movement.cpp"
+#include "Systems/Physics.cpp"
 class Game
 {
 public:
@@ -14,7 +15,7 @@ public:
 
 private:
     void _update();
-    bool _isRunning;
+    bool _isRunning{false};
 
     void _initializeEntities();
 

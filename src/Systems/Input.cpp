@@ -4,13 +4,13 @@
 
 inline void InputSystem(Registry &registry)
 {
-    for (Entity entity = 0; entity < registry.getEntityCount() && entity < registry.getMaxEntities(); ++entity)
+    for (Entity entity{0}; entity < registry.getEntityCount() && entity < registry.getMaxEntities(); ++entity)
     {
-        std::uint32_t bitMask = ComponentBit::INPUT | ComponentBit:: VELOCITY;
+        std::uint32_t bitMask {ComponentBit::INPUT | ComponentBit:: VELOCITY};
         if (registry.EntityHasComponent(entity, bitMask))
         {
-            Input &input = registry.getComponentArray<Input>()[entity];
-            Velocity &velocity = registry.getComponentArray<Velocity>()[entity];
+            Input &input {registry.getComponentArray<Input>()[entity]};
+            Velocity &velocity {registry.getComponentArray<Velocity>()[entity]};
             input.addInput(
                 IsKeyDown(KEY_RIGHT),
                 IsKeyDown(KEY_LEFT),

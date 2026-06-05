@@ -18,7 +18,7 @@ Entity Registry::createEntity()
     {
         return INVALID_ENTITY;
     }
-    Entity id = nextEntity;
+    Entity id {nextEntity};
     nextEntity++;
     return id;
 }

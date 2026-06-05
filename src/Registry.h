@@ -96,7 +96,7 @@ inline void Registry::addComponent(Entity entity, ComponentBit bit, T component)
     {
         return;
     }
-    T *componentArray = getComponentArray<T>();
+    T *componentArray {getComponentArray<T>()};
     componentArray[entity] = component;
     component_masks[entity] |= bit;
 }
