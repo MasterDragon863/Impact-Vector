@@ -1,35 +1,40 @@
 #include "raylib.h"
-#include "../Registry.h"
 #include "../Components/Components.h"
+#include "../ECS.h"
 #include <cmath>
 
-inline void PhysicsSystem(Registry &registry)
+class PhysicsSystem
 {
-    Physics *physics_components {registry.getComponentArray<Physics>()};
-    Velocity *velocities {registry.getComponentArray<Velocity>()};
-    for (Entity entity{0}; entity < registry.getEntityCount() && entity < registry.getMaxEntities(); ++entity)
+
+public:
+    static void applyPhysics(ECS &ecs)
     {
-        std::uint32_t bitMask {ComponentBit::PHYSICS | ComponentBit::VELOCITY};
-        if (registry.EntityHasComponent(entity, bitMask))
+        const std::size_t totalPhysicsComponents{ecs.getComponentCount<Physics>()};
+
+        for (std::size_t i{0}; i < totalPhysicsComponents; ++i)
         {
-            Physics &physics {physics_components[entity]};
-            Velocity &velocity {velocities[entity]}; 
+            Entity entity{ecs.getEntityFromDenseIndex<Physics>(i)};
 
-            float terminal_velocity{1000.0f};
-            if (physics.friction > 0.0f)
+            if (ecs.hasComponent<Velocity>(entity))
             {
-                terminal_velocity = physics.mass * physics.gravity / physics.friction;
-            }
+                Physics &physics{ecs.getComponent<Physics>(entity)};
+                Velocity &vel{ecs.getComponent<Velocity>(entity)};
 
+                float terminal_velocity{1000.0f};
+                if (physics.friction > 0.0f)
+                {
+                    terminal_velocity = physics.mass * physics.gravity / physics.friction;
+                }
 
-            if (velocity.dy < terminal_velocity)
-            {
-                velocity.dy += physics.gravity * GetFrameTime();
-
-            }
-            else {
-                velocity.dy -= physics.friction * GetFrameTime();
+                if (vel.dy < terminal_velocity)
+                {
+                    vel.dy += physics.gravity * GetFrameTime();
+                }
+                else
+                {
+                    vel.dy -= physics.friction * GetFrameTime();
+                }
             }
         }
     }
-}
+};
