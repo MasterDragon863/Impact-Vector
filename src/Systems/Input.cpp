@@ -1,5 +1,6 @@
 #include "raylib.h"
 #include "../Registry.h"
+
 #include "../Components/Components.h"
 
 inline void InputSystem(Registry &registry)

@@ -108,17 +108,7 @@ public:
     ECS() = default;
     ~ECS() = default;
 
-    Entity createEntity()
-    {
-        if (nextEntity >= MAX_ENTITIES)
-        {
-            return INVALID_ENTITY;
-        }
-        Entity id = nextEntity;
-        nextEntity++;
-        return id;
-    }
-
+    Entity createEntity();
     template <typename T>
     void addComponent(Entity entity, const T& component)
     {
@@ -138,21 +128,7 @@ public:
     }
 
     void destroyEntity(Entity entity)
-    {
-        if (entity == INVALID_ENTITY || entity >= nextEntity)
-        {
-            return;
-        }
-
-        for (const std::unique_ptr<IComponentPool>& pool : pools)
-        {
-            if (pool != nullptr)
-            {
-                pool->remove(entity);
-            }
-        }
-    }
-
+;
     template <typename T>
     std::size_t getComponentCount()
     {
