@@ -49,16 +49,16 @@ public:
         BeginDrawing();
         ClearBackground(BLACK);
 
-        std::size_t totalSprites = ecs.getComponentCount<Sprite>();
+        const std::size_t totalSprites {ecs.getComponentCount<Sprite>()};
 
         for (std::size_t i{0}; i < totalSprites; ++i)
         {
-            Entity entity = ecs.getEntityFromDenseIndex<Sprite>(i);
+            Entity entity {ecs.getEntityFromDenseIndex<Sprite>(i)};
 
             if (ecs.hasComponent<Position>(entity))
             {
-                const Sprite &sprite = ecs.getComponent<Sprite>(entity);
-                const Position &pos = ecs.getComponent<Position>(entity);
+                const Sprite &sprite {ecs.getComponent<Sprite>(entity)};
+                const Position &pos {ecs.getComponent<Position>(entity)};
 
                 if (sprite.useAtlas)
                 {

@@ -20,11 +20,12 @@ void Game::run()
         MovementSystem(_registry);
         Render(_registry);
         Renderer::draw(_ecs);
+        InputDetectionSystem::detectInput(_ecs);
     }
 
     CloseWindow();
 }
-
+    
 void Game::_update()
 {
     if (WindowShouldClose())
@@ -43,4 +44,7 @@ void Game::_initializeEntities()
 
     _ecs.addComponent<Position>(_player, Position{300.0f,300.0f});
     _ecs.addComponent<Sprite>(_player, Sprite{32.0f, 32.0f, ORANGE, {32.0f, 32.0f}, 0.0f});
+    _ecs.addComponent<Input>(_player, Input{});
+    _ecs.addComponent<Velocity>(_player, Velocity{0.0f, 0.0f});
+
 }
