@@ -5,27 +5,36 @@ Game::Game():
     _isRunning(true)
 {
     SetTargetFPS(60);
+    _playerEntity = _registry.createEntity();
+    _player = _ecs.createEntity();
 }
 
 void Game::run()
 {
-    InitWindow(640, 360, "Impact Vector");
+    InitWindow(_virtualWidth, _virtualHeight, "Impact Vector");
+    ToggleBorderlessWindowed();
+    SetWindowFocused();
+
+    _target = LoadRenderTexture(_virtualWidth, _virtualHeight);
+    SetTextureFilter(_target.texture, TEXTURE_FILTER_POINT);
+
     _initializeEntities();
 
     while (_isRunning)
     {
         _update();
-        InputSystem(_registry);
+        // InputSystem(_registry);
         PhysicsSystem(_registry);
-        MovementSystem(_registry);
-        Render(_registry);
-        Renderer::draw(_ecs);
+        // movement(_registry);
+        Render(_registry, _target);
+        Renderer::draw(_ecs, _target);
         InputDetectionSystem::detectInput(_ecs);
+        MovementSystem::moveEntities(_ecs);
     }
 
     CloseWindow();
 }
-    
+
 void Game::_update()
 {
     if (WindowShouldClose())
@@ -45,6 +54,6 @@ void Game::_initializeEntities()
     _ecs.addComponent<Position>(_player, Position{300.0f,300.0f});
     _ecs.addComponent<Sprite>(_player, Sprite{32.0f, 32.0f, ORANGE, {32.0f, 32.0f}, 0.0f});
     _ecs.addComponent<Input>(_player, Input{});
-    _ecs.addComponent<Velocity>(_player, Velocity{0.0f, 0.0f});
+    _ecs.addComponent<Velocity>(_player, Velocity{0.0f, 0.0f, 250.0f});
 
 }
