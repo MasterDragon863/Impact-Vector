@@ -92,6 +92,11 @@ inline Physics *Registry::getComponentArray<Physics>()
     return static_cast<Physics *>(component_storage[PHYSICS_TYPE]);
 }
 
+template <>
+inline Collider *Registry::getComponentArray<Collider>(){
+    return static_cast<Collider *> (component_storage[COLLIDER_TYPE]);
+}
+
 
 template <typename T>
 inline void Registry::addComponent(Entity entity, ComponentBit bit, T component)
