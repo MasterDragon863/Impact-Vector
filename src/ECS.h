@@ -62,6 +62,12 @@ public:
         return dense_components[dense_index];
     }
 
+    const T& get(Entity entity) const
+    {
+        std::size_t dense_index = sparse_to_dense[entity];
+        return dense_components[dense_index];
+    }
+
     bool has(Entity entity) const override
     {
         if (entity >= Capacity)
@@ -109,6 +115,8 @@ public:
     ~ECS() = default;
 
     Entity createEntity();
+    void destroyEntity(Entity entity);
+
     template <typename T>
     void addComponent(Entity entity, const T& component)
     {
@@ -122,31 +130,35 @@ public:
     }
 
     template <typename T>
-    bool hasComponent(Entity entity)
+    const T& getComponent(Entity entity) const
+    {
+        return getPool<T>().get(entity);
+    }
+
+    template <typename T>
+    bool hasComponent(Entity entity) const
     {
         return getPool<T>().has(entity);
     }
 
-    void destroyEntity(Entity entity)
-;
     template <typename T>
-    std::size_t getComponentCount()
+    std::size_t getComponentCount() const
     {
         return getPool<T>().size();
     }
 
     template <typename T>
-    Entity getEntityFromDenseIndex(std::size_t index)
+    Entity getEntityFromDenseIndex(std::size_t index) const
     {
         return getPool<T>().getEntityAtDenseIndex(index);
     }
 
 private:
-    std::array<std::unique_ptr<IComponentPool>, MAX_COMPONENT_TYPES> pools{};
+    mutable std::array<std::unique_ptr<IComponentPool>, MAX_COMPONENT_TYPES> pools{};
     Entity nextEntity{0};
 
     template <typename T>
-    ComponentPool<T, MAX_ENTITIES>& getPool()
+    ComponentPool<T, MAX_ENTITIES>& getPool() const
     {
         std::uint32_t id = ComponentIdCounter::getId<T>();
 

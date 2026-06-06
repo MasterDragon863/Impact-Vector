@@ -1,13 +1,12 @@
 #pragma once
+#include "ECS.h"
 
 #include <cstdint>
 #include <limits>
 
 #include "Components/Components.h"
 
-using Entity = std::uint32_t;
-const Entity MAX_ENTITIES{1000};
-const Entity INVALID_ENTITY{std::numeric_limits<Entity>::max()};
+
 
 enum ComponentBit
 {

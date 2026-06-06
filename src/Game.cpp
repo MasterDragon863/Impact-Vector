@@ -1,5 +1,6 @@
 #include "Game.h"
 
+
 Game::Game():
     _isRunning(true)
 {
@@ -18,6 +19,7 @@ void Game::run()
         PhysicsSystem(_registry);
         MovementSystem(_registry);
         Render(_registry);
+        Renderer::draw(_ecs);
     }
 
     CloseWindow();
@@ -38,4 +40,7 @@ void Game::_initializeEntities()
     _registry.addComponent<Input>(_playerEntity, ComponentBit::INPUT, Input());
     _registry.addComponent<Velocity>(_playerEntity, ComponentBit::VELOCITY, {0.0f, 0.0f, 250.0f});
     _registry.addComponent<Physics>(_playerEntity, ComponentBit::PHYSICS, Physics(980.0f, 0.1f, 1.0f, 0.0f));
+
+    _ecs.addComponent<Position>(_player, Position{300.0f,300.0f});
+    _ecs.addComponent<Sprite>(_player, Sprite{32.0f, 32.0f, ORANGE, {32.0f, 32.0f}, 0.0f});
 }
