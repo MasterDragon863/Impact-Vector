@@ -34,6 +34,7 @@ void Game::_update()
     InputDetectionSystem::detectInput(_ecs);
     PhysicsSystem::applyPhysics(_ecs);
     MovementSystem::moveEntities(_ecs);
+    CollisionSystem::handleCollisions(_ecs);
     Renderer::draw(_ecs, _target);
     Renderer::scaleToScreen(_target);
 }
@@ -41,8 +42,10 @@ void Game::_update()
 void Game::_initializeEntities()
 {
     _ecs.addComponent<Position>(_player, Position{100.0f, 100.0f});
-    _ecs.addComponent<Sprite>(_player, Sprite{32.0f, 32.0f, ORANGE, {32.0f, 32.0f}, 0.0f});
+    _ecs.addComponent<Sprite>(_player, Sprite{32.0f, 32.0f, ORANGE, {16.0f, 16.0f}, 0.0f});
     _ecs.addComponent<Input>(_player, Input{});
     _ecs.addComponent<Velocity>(_player, Velocity{0.0f, 0.0f, 250.0f});
     _ecs.addComponent<Physics>(_player, Physics(980.0f, 0.1f, 1.0f, 0.0f));
+    Collider playerCollider{Vector2{100.0f, 100.0f}, 32.0f, 32.0f};
+    _ecs.addComponent<Collider>(_player, playerCollider);
 }

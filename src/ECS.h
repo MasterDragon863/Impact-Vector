@@ -4,9 +4,11 @@
 #include <limits>
 #include <memory>
 #include <array>
+#include <iostream>
+#include <typeinfo>
 
 using Entity = std::uint32_t;
-constexpr Entity MAX_ENTITIES{1000};
+constexpr Entity MAX_ENTITIES{10};
 constexpr Entity INVALID_ENTITY{std::numeric_limits<Entity>::max()};
 constexpr std::size_t MAX_COMPONENT_TYPES{32};
 
@@ -18,6 +20,7 @@ struct ComponentIdCounter
     static std::uint32_t getId()
     {
         static const std::uint32_t id = nextTypeId++;
+        // std::cout << typeid(T).name() << ": " << id << std::endl;
         return id;
     }
 };

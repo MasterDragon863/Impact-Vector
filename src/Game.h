@@ -7,6 +7,7 @@
 #include "Systems/Input.cpp"
 #include "Systems/Movement.cpp"
 #include "Systems/Physics.cpp"
+#include "Systems/Collision.cpp"
 class Game
 {
 public:

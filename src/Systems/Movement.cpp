@@ -1,6 +1,7 @@
 #include "raylib.h"
 #include "../Components/Components.h"
 #include "../ECS.h"
+#include <iostream>
 
 
 class MovementSystem
@@ -20,6 +21,12 @@ public:
 
                 pos.x += vel.dx * GetFrameTime();
                 pos.y += vel.dy * GetFrameTime();
+
+                if (ecs.hasComponent<Collider>(entity)){
+                    Collider &col{ecs.getComponent<Collider>(entity)};
+
+                    col.updateOrigin(pos.x, pos.y);
+                }
             }
         }
     }
