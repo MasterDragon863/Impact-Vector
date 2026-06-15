@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "Collider.h"
 
 Game::Game() : _isRunning(true) {
     _player = _ecs.createEntity();
@@ -40,13 +41,13 @@ void Game::_initializeEntities() {
     _ecs.addComponent<Sprite>(
         _player, Sprite{32.0f, 32.0f, ORANGE, {16.0f, 16.0f}, 0.0f});
     _ecs.addComponent<Collider>(_player,
-                                {Vector2{100.0f, 100.0f}, 32.0f, 32.0f});
+                                {Vector2{100.0f, 100.0f}, 32.0f, 32.0f, ColliderType::DYNAMIC});
     _ecs.addComponent<Input>(_player, Input{});
     _ecs.addComponent<Velocity>(_player, Velocity{0.0f, 0.0f, 250.0f});
     _ecs.addComponent<Physics>(_player, Physics(980.0f, 0.1f, 1.0f, 0.0f));
 
-    _ecs.addComponent<Position>(_tile, Position{100.0f, 150.0f});
+    _ecs.addComponent<Position>(_tile, Position{100.0f, 300.0f});
     _ecs.addComponent<Sprite>(_tile,
                               Sprite{32.0f, 32.0f, RED, {16.0f, 16.0f}, 0.0f});
-    _ecs.addComponent<Collider>(_tile, {Vector2{100.0f, 150.0f}, 32.0f, 32.0f});
+    _ecs.addComponent<Collider>(_tile, {Vector2{100.0f, 300.0f}, 32.0f, 32.0f});
 }

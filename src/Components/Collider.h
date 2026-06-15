@@ -1,6 +1,11 @@
 #pragma once
 #include "raylib.h"
 
+enum class ColliderType {
+    STATIC,
+    DYNAMIC,
+};
+
 struct Collider
 {
     Vector2 origin{0.0f, 0.0f};
@@ -10,6 +15,7 @@ struct Collider
     float _minY{0.0f};
     float _maxX{0.0f};
     float _maxY{0.0f};
+    ColliderType type;
 
     inline const Vector2 getMin() const
     {
@@ -26,14 +32,15 @@ struct Collider
         origin = {x, y};
     }
 
-    Collider(Vector2 origin, float width, float height)
+    Collider(Vector2 origin, float width, float height, ColliderType colType = ColliderType::STATIC)
         : origin(origin),
           halfWidth(width / 2.0f),
           halfHeight(height / 2.0f),
           _minX(halfWidth * -1),
           _minY(halfHeight * -1),
           _maxX(halfWidth),
-          _maxY(halfHeight)
+          _maxY(halfHeight),
+          type(colType)
     {
     }
     Collider() = default;

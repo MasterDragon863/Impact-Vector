@@ -2,14 +2,19 @@
 
 #include "../Components/Components.h"
 #include "../ECS.h"
+#include "Collider.h"
+#include "Position.h"
 #include "raylib.h"
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
 #include <iostream>
-#include <ostream>
 
 struct SweepEntities {
     struct Entry {
         Entity id{INVALID_ENTITY};
         Collider *collider{nullptr};
+        Position *position{nullptr};
     };
 
     std::array<Entry, MAX_ENTITIES> entries;
@@ -45,7 +50,7 @@ struct SweepEntities {
         }
     }
 
-    bool add(Entity id, Collider *col) {
+    bool add(Entity id, Collider *col, Position *pos) {
         if (nextAvailableSlot >= MAX_ENTITIES || id >= MAX_ENTITIES) {
             return false;
         }
@@ -56,7 +61,8 @@ struct SweepEntities {
             return true;
         }
 
-        entries[nextAvailableSlot] = {.id = id, .collider = col};
+        entries[nextAvailableSlot] = {
+            .id = id, .collider = col, .position = pos};
         sparse[id] = nextAvailableSlot;
         nextAvailableSlot++;
 
@@ -84,17 +90,30 @@ struct SweepEntities {
     inline const Collider *getCollider(const Entity &entity) const {
         if (entity == INVALID_ENTITY || entity > MAX_ENTITIES) {
             return nullptr;
-
         }
         return entries[sparse[entity]].collider;
     }
+
+    inline Entry getEntry(Entity entity) {
+        assert(entity != INVALID_ENTITY);
+        assert(entity < nextAvailableSlot);
+
+        return entries[sparse[entity]];
+    }
+};
+
+struct Penetration {
+    float minMaxX;
+    float maxMinX;
+    float minMaxY;
+    float maxMinY;
 };
 
 class CollisionSystem {
   public:
     static void handleCollisions(ECS &ecs) {
 
-        _addColliders(ecs);
+        _addEntries(ecs);
         _sortArr.sort();
         _resolveCollision(ecs);
 
@@ -122,20 +141,74 @@ class CollisionSystem {
         return xCol && yCol;
     }
 
-    inline static void _addColliders(ECS &ecs) {
+    inline static void _addEntries(ECS &ecs) {
 
         const std::size_t totalColliders{ecs.getComponentCount<Collider>()};
         for (std::size_t i{0}; i < totalColliders; ++i) {
             Entity entity{ecs.getEntityFromDenseIndex<Collider>(i)};
+            assert(ecs.hasComponent<Position>(entity));
             Collider *col{&(ecs.getComponent<Collider>(entity))};
-            (void)_sortArr.add(entity, col);
+            Position *pos{&(ecs.getComponent<Position>(entity))};
+
+            (void)_sortArr.add(entity, col, pos);
         }
     }
 
     inline static void _resolveCollision(ECS &ecs) {
         for (std::size_t i{0}; i < _sortArr.getLength() - 1; ++i) {
-            for (std::size_t j{1}; j < _sortArr.getLength(); ++j) {
-                std::cout << _detectCollision(_sortArr.getCollider(i), _sortArr.getCollider(j)) << std::endl;
+            for (std::size_t j{i + 1}; j < _sortArr.getLength(); ++j) {
+                SweepEntities::Entry entryA{_sortArr.getEntry(i)};
+                SweepEntities::Entry entryB{_sortArr.getEntry(j)};
+
+                if (entryB.collider->getMin().x > entryA.collider->getMax().x) {
+                    break;
+                }
+
+                if (_detectCollision(entryA.collider, entryB.collider)) {
+                    if (entryA.collider->type != entryB.collider->type) {
+                        SweepEntities::Entry dynamicEntry{
+                            entryA.collider->type == ColliderType::DYNAMIC
+                                ? entryA
+                                : entryB};
+                        SweepEntities::Entry staticEntry{
+                            entryA.collider->type == ColliderType::STATIC
+                                ? entryA
+                                : entryB};
+
+                        Penetration penetration = {
+                            dynamicEntry.collider->getMin().x -
+                                staticEntry.collider->getMax().x,
+                            dynamicEntry.collider->getMax().x -
+                                staticEntry.collider->getMin().x,
+                            dynamicEntry.collider->getMin().y -
+                                staticEntry.collider->getMax().y,
+                            dynamicEntry.collider->getMax().y -
+                                staticEntry.collider->getMin().y,
+                        };
+
+                        float overlapX{(std::abs(penetration.minMaxX) <
+                                        std::abs(penetration.maxMinX))
+                                           ? penetration.minMaxX
+                                           : penetration.maxMinX};
+                        float overlapY{(std::abs(penetration.minMaxY) <
+                                        std::abs(penetration.maxMinY))
+                                           ? penetration.minMaxY
+                                           : penetration.maxMinY};
+
+                        if (std::abs(overlapX) < std::abs(overlapY)) {
+                            dynamicEntry.position->x -= overlapX;
+
+                            if (ecs.hasComponent<Velocity>(dynamicEntry.id)){
+                                ecs.getComponent<Velocity>(dynamicEntry.id).dx = 0;
+                            }
+                        } else {
+                            dynamicEntry.position->y -= overlapY;
+                            if (ecs.hasComponent<Velocity>(dynamicEntry.id)){
+                                ecs.getComponent<Velocity>(dynamicEntry.id).dy = 0;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
