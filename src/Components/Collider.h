@@ -11,12 +11,12 @@ struct Collider
     float _maxX{0.0f};
     float _maxY{0.0f};
 
-    inline Vector2 getMin() const
+    inline const Vector2 getMin() const
     {
         return Vector2{origin.x + _minX, origin.y + _minY};
     }
 
-    inline Vector2 getMax() const
+    inline const Vector2 getMax() const
     {
         return Vector2{origin.x + _maxX, origin.y + _maxY};
     }

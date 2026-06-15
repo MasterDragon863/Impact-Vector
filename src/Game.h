@@ -24,7 +24,8 @@ private:
     void _initializeEntities();
 
     ECS _ecs;
-    
+
+    Entity _tile;
     Entity _player;
 
 };
