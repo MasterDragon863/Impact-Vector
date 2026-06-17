@@ -1,31 +1,38 @@
 #pragma once
 
-#include "raylib.h"
-
 #include "ECS.h"
-#include "Systems/Render.cpp"
+#include "Systems/Collision.cpp"
 #include "Systems/Input.cpp"
 #include "Systems/Movement.cpp"
 #include "Systems/Physics.cpp"
-#include "Systems/Collision.cpp"
-class Game
-{
-public:
-    Game();
-    void run();
+#include "Systems/Render.cpp"
+#include "raylib.h"
 
-private:
-    void _update();
-    bool _isRunning{false};
-    RenderTexture2D _target;
-    const int _virtualWidth {640};
-    const int _virtualHeight {360};
+class Game {
+ public:
+  Game();
+  /**
+   * @brief The Main Function that runs the game.
+   */
+  void run();
 
-    void _initializeEntities();
+ private:
+  /**
+   * @brief the function that runs every frame and calls all the systems
+   */
+  void _update();
+  bool _isRunning{false};
+  RenderTexture2D _target;
+  const int _virtualWidth{640};
+  const int _virtualHeight{360};
 
-    ECS _ecs;
+  /**
+   * @brief adds the components for each and every entity
+   */
+  void _initializeEntities();
 
-    Entity _tile;
-    Entity _player;
+  ECS _ecs;
 
+  Entity _tile;
+  Entity _player;
 };
